@@ -6,12 +6,12 @@
 #include <vector>
 #include "hit.h"
 
-// Definición de tipos para las propiedades de partículas
+
 using Mass = double;
-using Charge = int;      // Carga en unidades de e
-using Phi = double;      // Ángulo azimutal en radianes
-using Pt = double;       // Momento transverso en GeV
-using Eta = double;      // Pseudorapidez
+using Charge = int;     
+using Phi = double;      
+using Pt = double;       
+using Eta = double;     
 
 using namespace std;
 
@@ -23,7 +23,7 @@ private:
     Phi m_phi;
     Pt m_pt;
     Eta m_eta;
-    vector<Hit*> m_hits;  // Lista de punteros a objetos Hit
+    vector<Hit*> m_hits;
 
 public:
     CParticle(string name, Mass mass, Charge charge, Phi phi, Pt pt, Eta eta);
@@ -48,7 +48,7 @@ public:
     virtual void SetEta(Eta eta) { m_eta = eta; };
     virtual Eta GetEta() const { return m_eta; };
 
-    // Métodos para manejar los hits
+    
     virtual void AddHit(Hit* hit);
     virtual void RemoveHit(HitID hit_id);
     virtual Hit* GetHit(HitID hit_id) const;
@@ -56,10 +56,10 @@ public:
     virtual int GetNHits() const { return m_hits.size(); };
     virtual void ClearHits();
 
-    // Métodos virtuales puros
+   
     virtual string GetParticleType() const = 0;
     
-    // Métodos virtuales con implementación por defecto
+    // Métodos ostream y print
     virtual string GetClassName() const { return string("Particle"); };
     virtual ostream &Test(ostream &os) const;
     

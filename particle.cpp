@@ -10,8 +10,7 @@ CParticle::CParticle(string name, Mass mass, Charge charge, Phi phi, Pt pt, Eta 
 
 CParticle::~CParticle() {
     cout << "~CParticle(" << m_name << ")" << endl;
-    // Nota: No eliminamos los hits porque la partícula no es propietaria de ellos
-    // Los hits deben ser gestionados externamente
+    
 }
 
 void CParticle::AddHit(Hit* hit) {
@@ -39,7 +38,7 @@ Hit* CParticle::GetHit(HitID hit_id) const {
 }
 
 void CParticle::ClearHits() {
-    cout << "Eliminando todos los hits de partícula " << m_name << endl;
+    cout << "Eliminando hits " << m_name << endl;
     m_hits.clear();
 }
 
@@ -55,14 +54,14 @@ ostream& CParticle::Test(ostream &os) const {
 
 void CParticle::Print(ostream &os) const {
     os << "Tipo: " << GetClassName() << " | " << GetParticleType() 
-       << " | Nombre: " << GetName()
-       << " | Mass: " << GetMass()
-       << " | Charge: " << GetCharge()
-       << " | Phi: " << GetPhi()
-       << " | Pt: " << GetPt()
-       << " | Eta: " << GetEta()
-       << " | Nhits: " << GetNHits()
-       << " | Test: ";
+       << " Nombre: " << GetName()
+       << " Mass: " << GetMass()
+       << " Charge: " << GetCharge()
+       << " Phi: " << GetPhi()
+       << " Pt: " << GetPt()
+       << " Eta: " << GetEta()
+       << " Nhits: " << GetNHits()
+       << " Test: ";
     Test(os);
     
     // Opcional: imprimir detalles de los hits

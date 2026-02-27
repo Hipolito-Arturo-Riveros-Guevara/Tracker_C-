@@ -37,7 +37,7 @@ public:
     void SetZ(Z z) { m_z = z; };
     void SetModuleID(module_id module_id) { m_module_id = module_id; };
     
-    // Operador de salida
+    // prints
     friend ostream& operator<<(ostream& os, const Hit& hit) {
         os << "Hit[ID=" << hit.m_hit_id 
            << ", pos=(" << hit.m_x << ", " << hit.m_y << ", " << hit.m_z << ")"
