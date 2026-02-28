@@ -1,50 +1,30 @@
-# Compilador y flags
 CXX = g++
-CXXFLAGS = -Wall -std=c++11 -g
-LDFLAGS = 
-
-# Archivos fuente
-SRCS = main.cpp particle.cpp electron.cpp hit.cpp
-
-# Archivos objeto (sustituir .cpp por .o)
-OBJS = $(SRCS:.cpp=.o)
-
-# Nombre del ejecutable
+CXXFLAGS = -Wall -std=c++11 -g -I. -IEventos
 TARGET = particle_sim.exe
 
-# Regla principal
+# Archivos fuente
+SRCS = main.cpp particle.cpp electron.cpp hit.cpp Eventos/event_generator.cpp
+OBJS = main.o particle.o electron.o hit.o event_generator.o
+
 all: $(TARGET)
 
-# Linkear todos los objetos para crear el ejecutable
 $(TARGET): $(OBJS)
-	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS)
 
-# Compilar archivos .cpp a .o
+# Regla para compilar archivos de la raíz
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# Limpiar archivos compilados (versión Windows)
+# Regla específica para event_generator.cpp
+event_generator.o: Eventos/event_generator.cpp
+	$(CXX) $(CXXFLAGS) -c Eventos/event_generator.cpp -o event_generator.o
+
+# NO necesitas reglas de dependencia explícitas con -I.
+
 clean:
-	del /Q $(OBJS) $(TARGET) 2>nul || echo "Archivos no encontrados"
+	del /Q $(OBJS) $(TARGET) 2>nul || echo Ignorando error de clean
 
-# Limpiar todo y recompilar
-rebuild: clean all
-
-# Regla para mostrar ayuda
-help:
-	@echo Comandos disponibles:
-	@echo   make        - Compilar el proyecto
-	@echo   make clean  - Eliminar archivos objeto y ejecutable
-	@echo   make run    - Compilar y ejecutar
-	@echo   make help   - Mostrar esta ayuda
-
-# Compilar y ejecutar
 run: all
 	$(TARGET)
 
-# Compilar con debugging adicional
-debug: CXXFLAGS += -DDEBUG -O0
-debug: all
-
-# Versión simplificada sin dependencias automáticas
-.PHONY: all clean rebuild help run debug
+.PHONY: all clean run

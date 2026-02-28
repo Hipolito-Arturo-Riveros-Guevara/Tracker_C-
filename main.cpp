@@ -1,37 +1,60 @@
 #include <iostream>
+#include <memory>
+#include <algorithm>
+#include "particle.h"
 #include "electron.h"
+#include "hit.h"
+#include "Eventos/event_generator.h"
+#include "types.h"
 
 using namespace std;
 
 int main() {
-    cout << "=== Creando hits ===" << endl;
-    Hit hit1(1, 1.0, 2.0, 3.0, 100);
-    Hit hit2(2, 1.1, 2.1, 3.1, 100);
-    Hit hit3(3, 1.2, 2.2, 3.2, 101);
+    cout << "Detector" << endl;
     
-    cout << "\n=== Creando electrón ===" << endl;
-    CElectron* electron = new CElectron("e1", 0.000511, 0.5, 25.0, 1.2, true, 24.8);
+    // geometria del detector
+    vector<ID> module_ids = {0, 1, 2, 3, 4};
+    vector<longitud> lx = {100.0, 100.0, 100.0, 100.0, 100.0};  
+    vector<longitud> ly = {100.0, 100.0, 100.0, 100.0, 100.0};  
+    vector<longitud> z_positions = {10.0, 20.0, 30.0, 40.0, 50.0}; 
     
-    cout << "\n=== Añadiendo hits al electrón ===" << endl;
-    electron->AddHit(&hit1);
-    electron->AddHit(&hit2);
-    electron->AddHit(&hit3);
+    SimpleDetectorGeometry geometry(module_ids, lx, ly, z_positions);
     
-    cout << "\n=== Mostrando información del electrón con sus hits ===" << endl;
-    cout << *electron << endl;
+    // genradpr de eventos
+    CEventGenerator generator(geometry, 
+                             0.0, 2*M_PI,     
+                             0.0, M_PI/10,      
+                             0.0, 0.0, 0.0,     
+                             12345);           
     
-    cout << "\n=== Buscando un hit específico ===" << endl;
-    Hit* foundHit = electron->GetHit(2);
-    if (foundHit) {
-        cout << "Hit encontrado: " << *foundHit << endl;
+    cout << "\nEvento" << endl;
+    vector<CElectron*> event_particles = generator.GenerateEvent(5);  // 5 partículas
+    
+    cout << "\nInfo del Evento" << endl;
+    generator.PrintEventInfo(event_particles);
+    
+    
+    // Recolectar hits
+    vector<Hit*> all_hits;
+    for (auto electron : event_particles) {
+        const auto& hits = electron->GetHits();
+        for (auto hit : hits) {
+            if (find(all_hits.begin(), all_hits.end(), hit) == all_hits.end()) {
+                all_hits.push_back(hit);
+            }
+        }
     }
     
-    cout << "\n=== Eliminando un hit ===" << endl;
-    electron->RemoveHit(2);
-    cout << "Después de eliminar: " << *electron << endl;
+    // Liberar hits
+    for (auto hit : all_hits) {
+        delete hit;
+    }
     
-    cout << "\n=== Liberando memoria ===" << endl;
-    delete electron;
+    // Liberar partículas
+    for (auto electron : event_particles) {
+        delete electron;
+    }
+    
     
     return 0;
 }

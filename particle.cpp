@@ -3,6 +3,62 @@
 
 using namespace std;
 
+/**
+ * @file particle.cpp
+ * @brief Implementación de la clase base CParticle.
+ * 
+ * Este archivo contiene la implementación de los métodos de la clase CParticle,
+ * que representa partículas con propiedades físicas y permite gestionar hits asociados.
+ */
+
+/**
+ * @brief Constructor de la clase CParticle.
+ * 
+ * Inicializa una partícula con sus propiedades físicas y un nombre.
+ * 
+ * @param name Nombre de la partícula.
+ * @param mass Masa de la partícula.
+ * @param charge Carga de la partícula.
+ * @param phi Ángulo azimutal de la partícula.
+ * @param pt Momento transversal de la partícula.
+ * @param eta Pseudorapidez de la partícula.
+ */
+
+/**
+ * @brief Destructor de la clase CParticle.
+ * 
+ * Libera los recursos asociados a la partícula.
+ */
+
+/**
+ * @brief Añade un hit a la partícula.
+ * 
+ * @param hit Puntero al hit que se añadirá.
+ */
+
+/**
+ * @brief Elimina un hit de la partícula por su ID.
+ * 
+ * @param hit_id Identificador del hit que se eliminará.
+ */
+
+/**
+ * @brief Obtiene un hit de la partícula por su ID.
+ * 
+ * @param hit_id Identificador del hit que se buscará.
+ * @return Puntero al hit encontrado, o nullptr si no se encuentra.
+ */
+
+/**
+ * @brief Elimina todos los hits asociados a la partícula.
+ */
+
+/**
+ * @brief Imprime información de la partícula en un flujo de salida.
+ * 
+ * @param os Flujo de salida donde se imprimirá la información.
+ */
+
 CParticle::CParticle(string name, Mass mass, Charge charge, Phi phi, Pt pt, Eta eta)
     : m_name(name), m_mass(mass), m_charge(charge), m_phi(phi), m_pt(pt), m_eta(eta) {
     cout << "CParticle(" << m_name << ")" << endl;
@@ -21,8 +77,7 @@ void CParticle::AddHit(Hit* hit) {
 }
 
 void CParticle::RemoveHit(HitID hit_id) {
-    auto it = find_if(m_hits.begin(), m_hits.end(), 
-        [hit_id](Hit* hit) { return hit && hit->GetHitID() == hit_id; });
+    auto it = find_if(m_hits.begin(), m_hits.end(), [hit_id](Hit* hit) { return hit && hit->GetHitID() == hit_id; });
     
     if (it != m_hits.end()) {
         cout << "Hit " << hit_id << " eliminado de partícula " << m_name << endl;

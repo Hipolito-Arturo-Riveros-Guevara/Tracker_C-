@@ -2,12 +2,8 @@
 #define __HIT_H__
 
 #include <iostream>
-
-using HitID = int;
-using X = double;
-using Y = double;
-using Z = double;
-using module_id = int;  
+#include "types.h"
+ 
 
 using namespace std;
 

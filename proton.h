@@ -1,18 +1,18 @@
-#ifndef __ELECTRON_H__
-#define __ELECTRON_H__
+#ifndef __PROTON_H__
+#define __PROTON_H__
 
 #include "particle.h"
 #include "types.h"
 
-class CElectron : public CParticle {
+class CProton : public CParticle {
 private:
     bool m_isolated;
     Energy m_ecalEnergy;
 
 public:
-    CElectron(string name, Mass mass, Phi phi, Pt pt, Eta eta, 
+    CProton(string name, Mass mass, Phi phi, Pt pt, Eta eta, 
               bool isolated = true, Energy ecalEnergy = 0.0);
-    virtual ~CElectron();
+    virtual ~CProton();
 
     virtual void SetIsolated(bool isolated) { m_isolated = isolated; };
     virtual bool GetIsolated() const { return m_isolated; };
@@ -20,9 +20,9 @@ public:
     virtual void SetEcalEnergy(Energy energy) { m_ecalEnergy = energy; };
     virtual Energy GetEcalEnergy() const { return m_ecalEnergy; };
 
-    string GetParticleType() const override { return string("Lepton"); };
-    string GetClassName() const override { return string("Electron"); };
+    string GetParticleType() const override { return string("Hadron"); };
+    string GetClassName() const override { return string("Proton"); };
     ostream& Test(ostream &os) const override;
 };
 
-#endif // __ELECTRON_H__
+#endif // __PROTON_H__
