@@ -1,0 +1,5 @@
+# Ignorar ejecutables de Windows
+*.exe
+
+# Ignorar archivos objeto de compilación
+*.o
